@@ -71,3 +71,13 @@ class AttendanceResponse(BaseModel):
 class AttendanceCreateBulk(BaseModel):
     date: date
     records: List[AttendanceMark]
+
+
+
+class StudentUpdate(BaseModel):
+    # Add these two lines so Pydantic stops throwing them away!
+    full_name: Optional[str] = None
+    grade: Optional[str] = None
+    email: Optional[EmailStr] = None
+    role: Optional[str] = None
+    student_id: Optional[str] = None # Add this too if you want to edit it!

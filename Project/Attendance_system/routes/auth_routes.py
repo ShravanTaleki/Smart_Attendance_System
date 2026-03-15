@@ -18,7 +18,7 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
 @router.post("/login")
 def login(credentials: LoginRequest, db: Session = Depends(get_db)):
     # 1. Find the user by the email provided in the JSON
-    user = db.query(User).filter(User.email == credentials.email).first()
+    user = db.query(User).filter(User.email == credentials.email.lower()).first()
     
     # 2. Verify the password (assuming you have a verify_password function from bcrypt)
     if not user or not verify_password(credentials.password, user.hashed_password):

@@ -2,7 +2,8 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from typing import List
 from database import get_db
-from schemas.schemas import StudentCreate, StudentResponse
+from schemas.schemas import StudentCreate, StudentResponse,StudentUpdate
+from models.models import User
 from services import student_service
 from utils.dependencies import require_role, get_current_user
 
@@ -24,3 +25,24 @@ def get_students(
 ):
     """Gets a list of all students"""
     return student_service.get_students_list(db)
+
+
+@router.put("/{student_id}", response_model=StudentResponse)
+def update_student(
+    student_id: int,
+    student_update: StudentUpdate,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(require_role("admin")) # ONLY Admins!
+):
+    """Updates an existing student's record"""
+    return student_service.update_student(db, student_id, student_update)
+
+@router.delete("/{student_id}")
+def delete_student(
+    student_id: int,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(require_role("admin")) # ONLY Admins!
+):
+    """Deletes a student and their associated records"""
+    return student_service.delete_student(db, student_id)
+

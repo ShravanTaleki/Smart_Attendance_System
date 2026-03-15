@@ -13,7 +13,7 @@ class User(Base):
     role = Column(String, nullable=False) # "admin", "teacher", or "student"
 
     # Relationships
-    student_profile = relationship("Student", back_populates="user", uselist=False)
+    student_profile = relationship("Student", back_populates="user", uselist=False,cascade="all, delete-orphan")
     attendance_marked = relationship("Attendance", back_populates="marked_by")
 
 # 2. The Students Table (Extra details only students have)
