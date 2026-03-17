@@ -146,7 +146,13 @@ const AttendanceReportView: React.FC = () => {
                 <td style={{ ...styles.td, ...statusStyle('absent') }}>{r.absent}</td>
                 <td style={{ ...styles.td, ...statusStyle('late') }}>{r.late}</td>
                 <td style={{ ...styles.td, ...statusStyle('excused') }}>{r.excused}</td>
-                <td style={styles.td}>{r.attendance_percentage.toFixed(1)}%</td>
+                <td style={{
+                  ...styles.td,
+                  color: r.attendance_percentage< 75 ? 'red':'inherit',
+                  fontWeight: r.attendance_percentage < 75 ? 'bold' : 'normal'
+                }}>
+                  {r.attendance_percentage.toFixed(1)}%
+                </td>
               </tr>
             ))}
           </tbody>

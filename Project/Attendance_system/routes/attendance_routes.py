@@ -5,7 +5,7 @@ from database import get_db
 from schemas.schemas import AttendanceResponse, AttendanceCreateBulk 
 from services import attendance_service
 from utils.dependencies import get_current_user
-from models.models import User,Student
+from models.models import User,Student, Attendance
 from datetime import date
 
 router = APIRouter(prefix="/api/attendance", tags=["Attendance"])
@@ -94,3 +94,7 @@ def get_my_attendance(
          
     # 3. Fetch their attendance!
     return attendance_service.get_student_attendance(db, db_student.id)
+
+@router.get("/report")
+def fetch_attendance_report(db: Session = Depends(get_db)):
+    return attendance_service.get_attendance_report(db)
